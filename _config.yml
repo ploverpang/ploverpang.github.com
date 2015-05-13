@@ -13,7 +13,7 @@ url: ploverpang.github.io
 
 permalink:   /:categories/:title/
 markdown:    kramdown
-highlighter: rouge 
+#highlighter: rouge 
 sass:
   sass_dir: _sass
   style: compressed
