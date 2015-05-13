@@ -5,8 +5,8 @@ locale: cn_CN
 description: Thinking, coding, writing, laughing 
 logo: site-logo.png
 search: true
-url: http://localhost:4000
-#url: http://ploverpang.github.io
+#url: http://localhost:4000
+url: http://ploverpang.github.io
 
 # Jekyll configuration
 
