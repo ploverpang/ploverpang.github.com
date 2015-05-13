@@ -1,12 +1,9 @@
 # Site navigation links
 
-- title: About
-  url: /about/
+- title: 工作札记
+  url: /tech/
 
-- title: Life 
-  url: /articles/
-
-- title: Blog
+- title: 生活随笔
   url: /blog/
 
 - title: Theme Setup
@@ -17,3 +14,6 @@
 
 - title: Search
   url: /search/
+
+- title: About
+  url: /about/
