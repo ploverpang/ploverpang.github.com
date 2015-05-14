@@ -1,19 +1,22 @@
 # Site navigation links
 
-- title: 工作札记
+- title: Technical articles
   url: /tech/
 
-- title: 生活随笔
+- title: Recode my life
   url: /blog/
 
-- title: Theme Setup
-  url: /theme-setup/
+- title: Tags
+  url: /tags/
+#- title: Theme Setup
+#  url: /theme-setup/
 
-- title: Made Mistakes
-  url: http://mademistakes.com
+#- title: Made Mistakes
+#  url: http://mademistakes.com
 
 - title: Search
   url: /search/
 
-- title: About
+- title: About me
   url: /about/
+  

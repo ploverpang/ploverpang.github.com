@@ -1,7 +1,10 @@
 ---
 layout: page
-title: 什么
+title: Technical articles
 excerpt: "An archive of articles sorted by date."
+image:
+  feature: so-simple-sample-image-5.jpg
+  credit: WeGraphics
 search_omit: true
 ---
 

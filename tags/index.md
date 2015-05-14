@@ -2,6 +2,9 @@
 layout: page
 title: Tag Index
 excerpt: "An archive of posts sorted by tag."
+image:
+  feature: so-simple-sample-image-2.jpg
+  credit: WeGraphics
 search_omit: true
 ---
 

@@ -1,7 +1,10 @@
 ---
 layout: page
-title: Blog
+title: Record my life
 excerpt: "An archive of blog posts sorted by date."
+image:
+  feature: so-simple-sample-image-1.jpg
+  credit: WeGraphics
 search_omit: true
 ---
 
