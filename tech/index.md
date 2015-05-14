@@ -3,7 +3,7 @@ layout: page
 title: Technical articles
 excerpt: "An archive of articles sorted by date."
 image:
-  feature: so-simple-sample-image-5.jpg
+  feature: so-simple-sample-image-4.jpg
   credit: WeGraphics
 search_omit: true
 ---
