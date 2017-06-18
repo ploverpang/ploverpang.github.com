@@ -273,7 +273,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/13/refactor-your-wetware/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/23/FPGA与Verilog HDL电路设计初探/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="PangBo">
@@ -292,7 +292,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/07/13/refactor-your-wetware/" itemprop="url">《程序员的思维训练》读后感</a></h1>
+                <a class="post-title-link" href="/2015/08/23/FPGA与Verilog HDL电路设计初探/" itemprop="url">FPGA与Verilog HDL电路设计初探</a></h1>
         
 
         <div class="post-meta">
@@ -304,146 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-13T00:00:00+08:00">
-                2015-07-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书心得/" itemprop="url" rel="index">
-                    <span itemprop="name">读书心得</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这本书并没有教我们如何写程序，或者如何在细节上写出更优秀的程序，比如要有缜密、全面的思维考虑边界条件，如何调试bug等等，这本书想要教给我们的，是如何学习与思考。与我本以为的那些细节思维不同，这本书要强调的，是全局的思维。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/07/13/refactor-your-wetware/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/05/14/git-commit-eventnotfound/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="PangBo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="PangBo's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/05/14/git-commit-eventnotfound/" itemprop="url">Git commit时出现event not found</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-14T00:00:00+08:00">
-                2015-05-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-23T00:00:00+08:00">
+                2015-08-23
               </time>
             
 
@@ -500,11 +362,572 @@
 
       
         
-          <p>在Windows下使用Git配置代理服务器时，需要使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global proxy.http http://userid:password@proxy.company.com:8080</div></pre></td></tr></table></figure></p>
-<p> 来配置代理。其中因为password中含有感叹号“！”,在git终端中显示<br> <strong>“！:event not found”</strong>。<br> 在本以为是git的问题，Google了“git ！:event not found “，发现大多数使用git碰到这个问题的人，都是在<code>git commit -m &quot;some commit&quot;</code>时碰到了同样的问题。其中提交时的备注中含有了感叹号，比如：<br> <code>git commit -m &quot;First commit!&quot;</code><br>就会报错！:event not found，很明显，commit时出现的错误和配置代理服务器时出现的错误是一个原因。</p>
+          <blockquote>
+<p><strong>导言：</strong> 这半个月花了一些时间研究FPGA上的嵌入式开发，特别是在图像处理方面的应用，都不敢称得上入门，只能说在门口往里稍微看了看。目前FPGA做图像处理方向的人还不多，这个方向相比其他平台有其优势，相信未来会有越来越多的人来尝试。这里将自己这段时间所学到的一些知识点整理出来，一方面做自己梳理思路之用，另一方面希望对今后从事这个方向的初学者有些帮助。</p>
+</blockquote>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/05/14/git-commit-eventnotfound/#more" rel="contents">
+            <a class="btn" href="/2015/08/23/FPGA与Verilog HDL电路设计初探/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/18/工业相机传感器与接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/08/18/工业相机传感器与接口/" itemprop="url">工业相机传感器与接口</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-18T00:00:00+08:00">
+                2015-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术博文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p><strong>导言：</strong> 这篇博客记录自己最近对工业相机传感器和常见接口的学习记录。之前自己都只关注图像处理和更为高级的计算机视觉的应用，对图像是如何生成的，特别是与图像生成息息相关的相机、镜头、光源等硬件设备知之甚少。有时项目需要，想去厂商买合适的设备，都不知道该如何选。也许如何成像对于学术研究来说不重要，但对实际项目却至关重要，特别是机器视觉中的应用。这篇博客主要参考《<strong><em>机器视觉算法与应用</em></strong>》这本书和前两天参加Point Grey成像研讨会的一些讲解。</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/08/18/工业相机传感器与接口/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/11/双目立体视觉/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/08/11/双目立体视觉/" itemprop="url">双目立体视觉介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-11T00:00:00+08:00">
+                2015-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术博文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p><strong>导言：</strong> 上一篇博客讲述了单目标定的原理，并展示了使用OpenCV提供的标定函数对棋盘格和圆点盘进行标定结果。这篇博客记录最近学习双目立体视觉的一些收获。如果对单目标定的原理有所掌握，双目视觉中对级几何、双目标定等知识理解起来应该很简单，图像校正仔细思考一下也不难。<strong>最难的还是在于立体匹配生成视差图的部分</strong>。这里的难，不是说理解这个步骤要实现什么效果难，而是如何实现好的效果，难！立体视觉的研究主要也集中在匹配上，新的方法和数据库还是在不断地被提出。这篇博客还是将重点放在了整个双目视觉处理的整个流程上，对于立体匹配这部分只介绍一些基本的方法。但通过这些基本介绍，我相信读者可以理解新的方法相比传统方法的改进。</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/08/11/双目立体视觉/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/06/单相机标定/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/08/06/单相机标定/" itemprop="url">单摄像机标定</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-06T00:00:00+08:00">
+                2015-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术博文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p><strong>导言：</strong> 之前听过一句话，计算机视觉可以粗略地分为两部分：一部分是基于模型的，另一部分是做几何的。基于模型的分支使用各种有监督的、无监督的机器学习的方法，解决识别、聚类等问题，可以说这一部分，是计算机视觉这些年来的主要研究领域，特别是最近几年深度学习的热潮，让大家提及计算机视觉就会提起深度学习。而计算机视觉的另一个分支：基于几何的计算机视觉，近来却没有引起特别大的关注。很大的原因就是基于几何的视觉已经发展的比较成熟了。大家提及几何视觉的参考书目，必然《<strong><em>Multi View Geometry in Computer Vision</em></strong>》，殊不知这本书是2004年出版的，现在已经过去11年。自己一直以来所做的方向都是在模型这个分支上，在几何方面许多基础问题都不是特别了解。这篇文章主要介绍一下这两天学习到的单摄像机标定的问题。</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/08/06/单相机标定/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/24/swt-headline-detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/07/24/swt-headline-detection/" itemprop="url">使用笔画宽度变化做商品包装的标题检测</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-24T00:00:00+08:00">
+                2015-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术博文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p><strong>导言：</strong>  最近在项目有一个需求：对商品包装（书、食品、报纸等等）的标题进行检测定位。包装的标题都是字符，无疑要使用OCR的相关技术。仔细考虑之后，发现标题有两个特点：一是相比其他文本串（比如生产厂商、生产日期等），<strong>标题本身所占面积很大，二来标题中的每一字都比较大，使用的字体都比较粗。</strong>考虑这两点，我们选择了笔划宽度变换（Stroke Width Transform，以下简称SWT）。SWT本身是用来做文本定位的方法，其定位的连续文本区域和中间产品笔划宽度联合起来，正好可以完美地衡量之前所述标题的两个特点。我在Github上找到了一个SWT的开源实现，但针对我们的需求做了不少改进，比如对于中文标题的检测、联通域分析速度慢等。改进之后的算法对于大多数标题都可准确定位，但对已笔划宽度过大的字体标题仍然存在不鲁棒的问题。</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/07/24/swt-headline-detection/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -545,7 +968,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -612,7 +1035,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
