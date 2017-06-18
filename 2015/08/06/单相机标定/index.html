@@ -1,0 +1,846 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CV,标定," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="导言： 之前听过一句话，计算机视觉可以粗略地分为两部分：一部分是基于模型的，另一部分是做几何的。基于模型的分支使用各种有监督的、无监督的机器学习的方法，解决识别、聚类等问题，可以说这一部分，是计算机视觉这些年来的主要研究领域，特别是最近几年深度学习的热潮，让大家提及计算机视觉就会提起深度学习。而计算机视觉的另一个分支：基于几何的计算机视觉，近来却没有引起特别大的关注。很大的原因就是基于几何的视觉">
+<meta name="keywords" content="CV,标定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单摄像机标定">
+<meta property="og:url" content="http://yoursite.com/2015/08/06/单相机标定/index.html">
+<meta property="og:site_name" content="PangBo&#39;s Blog">
+<meta property="og:description" content="导言： 之前听过一句话，计算机视觉可以粗略地分为两部分：一部分是基于模型的，另一部分是做几何的。基于模型的分支使用各种有监督的、无监督的机器学习的方法，解决识别、聚类等问题，可以说这一部分，是计算机视觉这些年来的主要研究领域，特别是最近几年深度学习的热潮，让大家提及计算机视觉就会提起深度学习。而计算机视觉的另一个分支：基于几何的计算机视觉，近来却没有引起特别大的关注。很大的原因就是基于几何的视觉">
+<meta property="og:image" content="https://farm1.staticflickr.com/498/19716705463_d14e4b7899_z.jpg">
+<meta property="og:image" content="https://farm1.staticflickr.com/442/20151400880_eafe044a77_z.jpg">
+<meta property="og:image" content="https://farm1.staticflickr.com/265/20360084806_d130e3e562_z.jpg">
+<meta property="og:image" content="https://farm1.staticflickr.com/269/20198351978_59a9c4c616_z.jpg">
+<meta property="og:image" content="https://farm4.staticflickr.com/3719/19763669624_f6b07e48a4_z.jpg">
+<meta property="og:updated_time" content="2017-06-18T15:31:47.734Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单摄像机标定">
+<meta name="twitter:description" content="导言： 之前听过一句话，计算机视觉可以粗略地分为两部分：一部分是基于模型的，另一部分是做几何的。基于模型的分支使用各种有监督的、无监督的机器学习的方法，解决识别、聚类等问题，可以说这一部分，是计算机视觉这些年来的主要研究领域，特别是最近几年深度学习的热潮，让大家提及计算机视觉就会提起深度学习。而计算机视觉的另一个分支：基于几何的计算机视觉，近来却没有引起特别大的关注。很大的原因就是基于几何的视觉">
+<meta name="twitter:image" content="https://farm1.staticflickr.com/498/19716705463_d14e4b7899_z.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/06/单相机标定/"/>
+
+
+
+
+
+  <title>单摄像机标定 | PangBo's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PangBo's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Please fasten your seatbelt</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/06/单相机标定/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单摄像机标定</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-06T00:00:00+08:00">
+                2015-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术博文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><strong>导言：</strong> 之前听过一句话，计算机视觉可以粗略地分为两部分：一部分是基于模型的，另一部分是做几何的。基于模型的分支使用各种有监督的、无监督的机器学习的方法，解决识别、聚类等问题，可以说这一部分，是计算机视觉这些年来的主要研究领域，特别是最近几年深度学习的热潮，让大家提及计算机视觉就会提起深度学习。而计算机视觉的另一个分支：基于几何的计算机视觉，近来却没有引起特别大的关注。很大的原因就是基于几何的视觉已经发展的比较成熟了。大家提及几何视觉的参考书目，必然《<strong><em>Multi View Geometry in Computer Vision</em></strong>》，殊不知这本书是2004年出版的，现在已经过去11年。自己一直以来所做的方向都是在模型这个分支上，在几何方面许多基础问题都不是特别了解。这篇文章主要介绍一下这两天学习到的单摄像机标定的问题。</p>
+</blockquote>
+<a id="more"></a>
+<p>针孔摄像机模型是几何处理的常用模型，但由于进光量太少亮度不够和会带来衍射这两个问题，真实的镜头都是使用透镜实现的。透镜会带来畸变，消除畸变是摄像机标定的一个任务。标定更为重要的意义，是其确定的摄像机模型，是将三维的物体坐标转换成图像中坐标的工具。我们日常拍摄的照片时，为什么真实的物体的一个角会出现在照片的这个位置而不是别处，这都是摄像机的模型决定的。</p>
+<p>##摄像机模型和投影几何</p>
+<p><img src="https://farm1.staticflickr.com/498/19716705463_d14e4b7899_z.jpg" alt="projection"></p>
+<p dir="ltr" align="middle" style="font-size:xx-small">小孔成像模型</p>
+
+<p>小孔成像模型中：$$x=\frac{fX}{Z}$$ </p>
+<p>但真实透镜模型中，镜头的光轴无法处于镜头的中心，因此会带来两个参数$c_x$和$c_y$。真实的透镜也无法做到像素点为准确的正方形，因此又会引入两个参数$s_x$和$s_y$，表示每个像素与真实距离的比值，这样物理焦距$F$与$s_x$的乘积$f_x$，可表示为x方向的焦距，对应$f_y$为y方向的焦距。</p>
+<p>这样摄像机模型可以表示为：</p>
+<p>$$x=f_x(\frac{X}{Z})+c_x$$</p>
+<p>$$y=f_y(\frac{Y}{Z})+c_y$$</p>
+<blockquote>
+<p><strong>定义：</strong> 将坐标$(X_i, Y_i, Z_i$的物理点$Q_i$映射到投影平面上坐标为$(x_i, y_i)$的点的过程叫做<strong>投影变换</strong>。</p>
+</blockquote>
+<p>这是《<em>Learning OpenCV</em>》书里所给的定义。也就是说，使用摄像机模型，将三维坐标转换为二维坐标，就是通过投影变换来实现的。</p>
+<p>矩阵：</p>
+<p>$$M =  \begin{pmatrix} f_x &amp; 0 &amp; c_x \ 0 &amp; f_y &amp; c_y \ 0 &amp; 0 &amp; 1 \ \end{pmatrix} $$</p>
+<p>即为矩阵的内参矩阵。</p>
+<p>##射影变换</p>
+<blockquote>
+<p>几何研究的是在变换群下保持不变的性质。–Felix Klein</p>
+</blockquote>
+<p>首先给出《多视图几何》书中对于射影变换的定义：</p>
+<blockquote>
+<p> <strong>定义：</strong> 射影映射是$IP^2$到它自身的一种满足一下条件的可逆映射$h$：三点$x_1$,$x_2$,$x_3$共线当且仅当$h(x_1)$,$h(x_2)$,$h(x_3)$共线。</p>
+<p>射影变换又称<strong>保线变换</strong>（一个有益的名字），或者<strong>射影变换</strong>或<strong>单应</strong>。</p>
+<p><strong>射影变换或单应：</strong> 二维平面到二维平面之间的变换。</p>
+<p> <strong>它们之间的联系在于:</strong> 单应是将处于一个平面的点，通过投影变换到另一个平面上形成的变换。虽然单应是二维到二维的变换，但这个变换实际上是在三维空间完成的，这个变换就是投影变换。</p>
+</blockquote>
+<p>很多刚刚入门计算机视觉的新人，听到仿射变换、投影变换等名词，可能会不知道是什么意思（反正这几个名词当初困扰了我很长时间，查阅了资料也不是很明白）。《多视图几何》那本书2.4节对各种变换做了详细地阐述，特别是表2.1，总结了各种变换下的不变量。</p>
+<p><img src="https://farm1.staticflickr.com/442/20151400880_eafe044a77_z.jpg" alt="translation"></p>
+<p>射影变换有8个自由度，而仿射变换的自由度为6，其差距就在于仿射变换的最后一行为[0,0,1]，而投影变换为[$a_31$, $a_32$,0]。</p>
+<p>单应性矩阵有８个参数，给定４个点即可确定一个单应。反过来说，<strong>一个单应最多包含四个点提供的信息</strong>。这点非常重要，后文将会看到，当使用单应标定时，最小的标定棋盘格数目就与这点相关。</p>
+<p>讲摄像机标定，为什么要讲单应呢？因为<strong>单应是进行摄像机标定的工具</strong>。更具体来说：求解摄像机标定就是通过求解标定板（二维平平面）与图像平面（二维平面）的单应来求解摄像机内外参的。</p>
+<p>##标定</p>
+<p>###摄像机外参</p>
+<p>摄像机外参其实是一组三维坐标到另外一组三维坐标之间的转换。特殊的是：这个转换的目标是将真实物体坐标转换到摄像机坐标系（摄像机透镜和光轴建立起来的平面）的转换，将这两组坐标之间的转换叫做摄像机外参。</p>
+<p>如果物体的坐标是以摄像机坐标系的坐标表示出来的，刚才介绍了摄像机内参$M$就可以唯一确定投影到图像上点的位置了，但实际上真实的坐标很多是以物体坐标为准的，比如一个机器人抓取系统中的“手-眼”变换，需要将眼睛的摄像机坐标系与机器人手臂的坐标系转换一下。这里就用到了摄像机的外参，旋转矩阵$R$和平移矩阵$T$。</p>
+<p>有了摄像机的内参和外参，物体某一点在图像上的坐标就可以唯一确定了。世界坐标系下的真实点的齐次坐标$Q=(X, Y, Z,1)$与图像齐次坐标$q=(x,y,1)$的关系为：</p>
+<p>$$<br>q=sHQ<br>$$</p>
+<p>其中：</p>
+<p>$$<br>H=M[R | T]<br>$$</p>
+<p>###摄像机畸变</p>
+<p>普通透镜镜头会有径向畸变和切向畸变的影响。径向畸变是来源于透镜形状，图像在原理图像中心的区域更加弯曲。切向畸变来源于摄像机的组装过程，镜头光轴未能与相机CCD或CMOS芯片垂直。</p>
+<p>径向畸变在光轴出不会存在畸变，越原理光轴畸变越大，因此可以用中心的泰勒级数来描述。切向畸变也可用两个参数来描述。</p>
+<p>OpenCV目前提供的畸变参数是8个参数的，6级的径向参数和两个切向参数，可以根据实际需要选择径向畸变的参数数目。</p>
+<p>###具体标定过程</p>
+<p>之前已经提过内参的重要作用。外参在摄像机发生转动、平移或者物体坐标系发生转动、平移式都会发生变化，但内参一般不会变化。（这里说一般，是指有内参变化的情况，比如可以变焦的侦查摄像机中）。下面介绍最常用的张正友标定法，工具就是我们提到的单应。</p>
+<p>物体某点$Q$在相机图像上的坐标$q$由内、外参唯一确定，公式：</p>
+<p>$$<br>q=sM[R|T]Q=sM<br>\begin{bmatrix}<br>r_1 &amp; r_2 &amp; r_3 &amp; t<br>\end{bmatrix}<br>\begin{bmatrix} X \ Y \ Z \ 1 \end{bmatrix}<br>Q<br>$$</p>
+<p>如果物体上的点都共面会怎么样呢？不妨假设我们将坐标系为共面点的$Z=0$。（这个假设是合理的，因为物体坐标系的不同，只会影响外参R和T的不同）。这时上式退化为：</p>
+<p>$$<br>q=sM[R|T]Q=sM<br>\begin{bmatrix}<br>r_1 &amp; r_2 &amp;  t<br>\end{bmatrix}<br>\begin{bmatrix} X \ Y \  1 \end{bmatrix}<br>Q<br>$$</p>
+<p>即：两平面之间的变换可以用单应来表示：</p>
+<p>$$<br>q=sHQ<br>$$</p>
+<p>这时$H$是一个$3 \times 3$的矩阵。</p>
+<p>一组棋盘格的点与图像上的点形成的点对，可以求解出一个单应性矩阵，包含4个有效点，即8个有效方程。由于棋盘格坐标系与摄像机坐标系的RT矩阵变化了，会引入6个未知量。因此，只要足够多幅棋盘格，就可以求解出所有的内外参。</p>
+<p>这个足够多最少是多少呢？具体来说：K为棋盘图像，K为每个棋盘提供N个角点，最小的N为多少？K为多少？</p>
+<p>$$2NK\geqslant 6K+4$$</p>
+<p>看起来当K=1，N=5时就可以满足要求，但实际上不可以。因为一副单应矩阵最多只能确定4个点，所以K最小为2。如果不想让信息重复的话，两幅图像确定一个单应矩阵，因此<strong>最少需要四幅图像</strong>。在实际使用中，尽量多选几个棋盘格方位。</p>
+<p>使用单应性矩阵求解内参，方法为使用旋转矩阵正交且向量相等两个约束。具体求解方法参见《学习OpenCV》中文版424页的内容。</p>
+<p>求解得到内参之后，也可以得到每一个棋盘格位置对应的一组外参。</p>
+<p>畸变参数的求解方法为：得到了内外参，即可将棋盘格的坐标投影到图像上，得到完美针孔模型下的角点坐标（可以理解为无畸变的坐标）。该坐标与相机图像平面角点检测得到的坐标（可以理解为带畸变的）是通过畸变模型联系起来的，通过足够的方程即可求解畸变参数。</p>
+<blockquote>
+<p><strong>疑问：</strong> 我之前一直有一个疑问，计算相机内外参时，是假设相机没有畸变的，之后又通过计算出的内外参估计畸变。也就是说，内外参本身就受到了畸变的影响？但据说张正友标定法的精度很高，为什么错误的假设却仍然效果很好？</p>
+<p>我想到的原因是：因为使用了多组标定板的图像，每组又有多个点，多个点在成像仪中心处的径向畸变都很小，现在大多数相机的切向畸变也都很小，所以效果仍然很好。</p>
+</blockquote>
+<p>##OpenCV中的实现</p>
+<p>使用OpenCV进行单相机标定的工作很简单，找角点，标定。如果需要矫正图像再加一步根据畸变参数矫正图像。</p>
+<p>###找角点<br>OpenCV提供两种标定板的角点检测方式，普通棋盘格和圆点图。</p>
+<p>普通棋盘格的角点检测函数为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool findChessboardCorners( InputArray image, Size patternSize, OutputArray corners, int flags=CALIB_CB_ADAPTIVE_THRESH+CALIB_CB_NORMALIZE_IMAGE );</div></pre></td></tr></table></figure>
+<p>采用角点检测得到的棋盘格角点，可通过cornerSubPix()函数精确定位角点位置。</p>
+<p>OpenCV也可进行圆点标定盘的检测，函数为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">bool findCirclesGrid( InputArray image, Size patternSize,</div><div class="line">                                 OutputArray centers, int flags=CALIB_CB_SYMMETRIC_GRID,</div><div class="line">                                 const Ptr&lt;FeatureDetector&gt; &amp;blobDetector = new SimpleBlobDetector());</div></pre></td></tr></table></figure>
+<p>默认的圆点检测器为SimpleBlobDetector()，注意这个函数是在OpenCV的features2d的lib库中，如果使用的话需要添加该库到项目中。</p>
+<p>检测之后，可通过drawChessboardCorners(  )看到检测之后的角点或者圆点。</p>
+<p><img src="https://farm1.staticflickr.com/265/20360084806_d130e3e562_z.jpg" alt="chessborad"></p>
+<p><img src="https://farm1.staticflickr.com/269/20198351978_59a9c4c616_z.jpg" alt="circles"></p>
+<p dir="ltr" align="middle" style="font-size:xx-small">在图像检测出的角点（上图）与圆点（下图）</p>
+
+<p>###标定<br>OpenCV提供的标定函数为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">double calibrateCamera( InputArrayOfArrays objectPoints,</div><div class="line">                                     InputArrayOfArrays imagePoints,</div><div class="line">                                     Size imageSize,</div><div class="line">                                     CV_OUT InputOutputArray cameraMatrix,</div><div class="line">                                     CV_OUT InputOutputArray distCoeffs,</div><div class="line">                                     OutputArrayOfArrays rvecs, OutputArrayOfArrays tvecs,</div><div class="line">                                     int flags=0, TermCriteria criteria = TermCriteria(</div><div class="line">                                         TermCriteria::COUNT+TermCriteria::EPS, 30, DBL_EPSILON) );</div></pre></td></tr></table></figure>
+<p>这个函数《学习OpenCV》那本书已经讲的非常清楚。这里不在累述。</p>
+<p>标定出的相机内参如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">%YAML:1.0</div><div class="line">calibration_time: &quot;08/08/15 09:12:10&quot;</div><div class="line">image_width: 640</div><div class="line">image_height: 480</div><div class="line">board_width: 9</div><div class="line">board_height: 6</div><div class="line">square_size: 1.</div><div class="line">flags: 0</div><div class="line">camera_matrix: !!opencv-matrix</div><div class="line">   rows: 3</div><div class="line">   cols: 3</div><div class="line">   dt: d</div><div class="line">   data: [ 5.4211330070507688e+002, 0., 3.2836976808487481e+002, 0.,</div><div class="line">       5.4138068607188666e+002, 2.4704051570871658e+002, 0., 0., 1. ]</div><div class="line">distortion_coefficients: !!opencv-matrix</div><div class="line">   rows: 5</div><div class="line">   cols: 1</div><div class="line">   dt: d</div><div class="line">   data: [ -2.8158519085530337e-001, 1.0798030417595533e-001,</div><div class="line">       -5.5690346433308476e-004, 1.2602739244433842e-003,</div><div class="line">       -2.7920666373137920e-002 ]</div><div class="line">avg_reprojection_error: 4.4545272993464352e-001</div></pre></td></tr></table></figure>
+<p>camera_matrix.data为[3*3]的摄像机矩阵。</p>
+<p>最后一个参数avg_reprojection_error为根据相机参数，将三维坐标点投影到摄像机像平面，与角点检测器检测到的角点的距离之和。这个值越小，说明内参计算越准确。</p>
+<p>我们将棋盘格数目减少到4幅的时候，参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">%YAML:1.0</div><div class="line">calibration_time: &quot;08/08/15 09:32:38&quot;</div><div class="line">image_width: 640</div><div class="line">image_height: 480</div><div class="line">board_width: 9</div><div class="line">board_height: 6</div><div class="line">square_size: 1.</div><div class="line">flags: 0</div><div class="line">camera_matrix: !!opencv-matrix</div><div class="line">   rows: 3</div><div class="line">   cols: 3</div><div class="line">   dt: d</div><div class="line">   data: [ 5.3531750152510767e+002, 0., 3.2334543520152783e+002, 0.,</div><div class="line">       5.3342192020034440e+002, 2.4638154509444934e+002, 0., 0., 1. ]</div><div class="line">distortion_coefficients: !!opencv-matrix</div><div class="line">   rows: 5</div><div class="line">   cols: 1</div><div class="line">   dt: d</div><div class="line">   data: [ -2.2855490821390265e-001, -4.8728080874093485e-002,</div><div class="line">       2.8544974189292391e-003, 9.1704196454279411e-004,</div><div class="line">       1.6039961927168522e-001 ]</div><div class="line">avg_reprojection_error: 6.2188264303565677e-001</div></pre></td></tr></table></figure>
+<p>avg-reprojection_error变为了0.6，比之前0.4误差提高了一些。</p>
+<p>关于OpenCV中的标定函数，我还是有两点疑惑：</p>
+<p> 一.  为什么输入参数里需要输入imageSize。有了点对之间的关系，就可以确定摄像机参数。</p>
+<p> OpenCV API手册给出的解释是：</p>
+<blockquote>
+<p>imageSize – Size of the image used only to initialize the intrinsic camera matrix.</p>
+</blockquote>
+<p>   也就是说，imageSize只是为了初始化内参。但是imageSize初始化哪个内参呢？棋盘可能根本就不在图像中间，角点也是检测出来的。不明白为什么需要imageSize。</p>
+<p>二. 张氏标定看起来不是一个迭代算法，为什么在最后一项需要终止条件？</p>
+<p>###矫正畸变</p>
+<p>计算出畸变参数之后，通过径向畸变和切向畸变的模型，计算出畸变映射，在矫正图像。</p>
+<p>畸变映射的获取函数为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">void initUndistortRectifyMap( InputArray cameraMatrix, InputArray distCoeffs,</div><div class="line">                           InputArray R, InputArray newCameraMatrix,</div><div class="line">                           Size size, int m1type, OutputArray map1, OutputArray map2 );</div></pre></td></tr></table></figure>
+<p>这个函数从名字可以看出，是得到没有畸变和对齐的映射，也就是说它可以完成两个功能：</p>
+<ul>
+<li>得到矫正畸变的映射</li>
+<li>得到校正左右图的映射（立体视觉中的重要应用）</li>
+</ul>
+<p>对于矫正畸变，参数R设为空矩阵 和参数 newCameraMatrix可设为cameraMatrix，或者用                                getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, 1, imageSize, 0)得到更好控制尺度的矩阵。如果在立体视觉校正图像，这两个参数就各自有重要的意义了。</p>
+<p>《Learning OpenCV》中396页有行脚注</p>
+<blockquote>
+<p>We should take a moment to clearly make a distinction here between undistortion, which mathematically removes lens distortion, and rectification, which mathematically aligns the images with respect to each other.</p>
+</blockquote>
+<p>对于中文，这段更有意义（摘自《学习OpenCV》中文版）：</p>
+<blockquote>
+<p>我们花点功夫清晰区分一下”矫正”（undistortion）与”校正”（rectification）的关系，”矫正”是在数学上去掉透镜畸变，而”矫正”是数学上将图像排列整齐。</p>
+</blockquote>
+<p>得到mapX和mapY是x方向和y方向的反向投影矩阵，即”新的图像中的某个像素，需要老的图像中哪个点来填补“，格式为32位浮点。使用remap函数对原像素进行差值得到目标位置的正确值。</p>
+<p><img src="https://farm4.staticflickr.com/3719/19763669624_f6b07e48a4_z.jpg" alt="消除畸变对比"></p>
+<p dir="ltr" align="middle" style="font-size:xx-small"> 消除畸变效果</p>
+
+<p>可以看到，左图中明显的桶形畸变，导致棋盘格直线外凸，在矫正之后得到了解决。</p>
+<p>代码使用的就是OpenCV的cpp例程，就不再上传了，有兴趣可以自己尝试一下。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"># CV</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/24/swt-headline-detection/" rel="next" title="使用笔画宽度变化做商品包装的标题检测">
+                <i class="fa fa-chevron-left"></i> 使用笔画宽度变化做商品包装的标题检测
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/11/双目立体视觉/" rel="prev" title="双目立体视觉介绍">
+                双目立体视觉介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="PangBo" />
+          <p class="site-author-name" itemprop="name">PangBo</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">PangBo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

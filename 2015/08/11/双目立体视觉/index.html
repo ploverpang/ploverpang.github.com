@@ -1,0 +1,829 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CV,标定," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="导言： 上一篇博客讲述了单目标定的原理，并展示了使用OpenCV提供的标定函数对棋盘格和圆点盘进行标定结果。这篇博客记录最近学习双目立体视觉的一些收获。如果对单目标定的原理有所掌握，双目视觉中对级几何、双目标定等知识理解起来应该很简单，图像校正仔细思考一下也不难。最难的还是在于立体匹配生成视差图的部分。这里的难，不是说理解这个步骤要实现什么效果难，而是如何实现好的效果，难！立体视觉的研究主要也集">
+<meta name="keywords" content="CV,标定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双目立体视觉介绍">
+<meta property="og:url" content="http://yoursite.com/2015/08/11/双目立体视觉/index.html">
+<meta property="og:site_name" content="PangBo&#39;s Blog">
+<meta property="og:description" content="导言： 上一篇博客讲述了单目标定的原理，并展示了使用OpenCV提供的标定函数对棋盘格和圆点盘进行标定结果。这篇博客记录最近学习双目立体视觉的一些收获。如果对单目标定的原理有所掌握，双目视觉中对级几何、双目标定等知识理解起来应该很简单，图像校正仔细思考一下也不难。最难的还是在于立体匹配生成视差图的部分。这里的难，不是说理解这个步骤要实现什么效果难，而是如何实现好的效果，难！立体视觉的研究主要也集">
+<meta property="og:image" content="https://farm1.staticflickr.com/566/19832797853_3fe630ac4e_z.jpg">
+<meta property="og:image" content="https://farm1.staticflickr.com/280/19835160193_bb3ac02718_z.jpg">
+<meta property="og:updated_time" content="2017-06-18T15:31:27.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="双目立体视觉介绍">
+<meta name="twitter:description" content="导言： 上一篇博客讲述了单目标定的原理，并展示了使用OpenCV提供的标定函数对棋盘格和圆点盘进行标定结果。这篇博客记录最近学习双目立体视觉的一些收获。如果对单目标定的原理有所掌握，双目视觉中对级几何、双目标定等知识理解起来应该很简单，图像校正仔细思考一下也不难。最难的还是在于立体匹配生成视差图的部分。这里的难，不是说理解这个步骤要实现什么效果难，而是如何实现好的效果，难！立体视觉的研究主要也集">
+<meta name="twitter:image" content="https://farm1.staticflickr.com/566/19832797853_3fe630ac4e_z.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/11/双目立体视觉/"/>
+
+
+
+
+
+  <title>双目立体视觉介绍 | PangBo's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PangBo's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Please fasten your seatbelt</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/11/双目立体视觉/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">双目立体视觉介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-11T00:00:00+08:00">
+                2015-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术博文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><strong>导言：</strong> 上一篇博客讲述了单目标定的原理，并展示了使用OpenCV提供的标定函数对棋盘格和圆点盘进行标定结果。这篇博客记录最近学习双目立体视觉的一些收获。如果对单目标定的原理有所掌握，双目视觉中对级几何、双目标定等知识理解起来应该很简单，图像校正仔细思考一下也不难。<strong>最难的还是在于立体匹配生成视差图的部分</strong>。这里的难，不是说理解这个步骤要实现什么效果难，而是如何实现好的效果，难！立体视觉的研究主要也集中在匹配上，新的方法和数据库还是在不断地被提出。这篇博客还是将重点放在了整个双目视觉处理的整个流程上，对于立体匹配这部分只介绍一些基本的方法。但通过这些基本介绍，我相信读者可以理解新的方法相比传统方法的改进。</p>
+</blockquote>
+<a id="more"></a>
+<p>##三角测量<br>三角测量是双目测距的基础，它从原理上解释了为什么左、右图像上对应点之间的关系，可以转换为点的深度信息。</p>
+<p>假设我们两台相机固定在支架上，两台相机的光轴平行，并且像平面精确地位于一个平面上，焦距一致，主点也已校准。两个相机之间的关系可以用下图来表示。</p>
+<p><img src="https://farm1.staticflickr.com/566/19832797853_3fe630ac4e_z.jpg" alt="三角测量"></p>
+<p dir="ltr" align="middle" style="font-size:xx-small"> 三角测量示意图</p>
+
+<p>$$<br>\frac{Z}{T} = \frac{Z-f}{T-x^l+x^r}\Rightarrow Z=\frac{fT}{x^l-x^r}<br>$$</p>
+<p>$x^l-x^r$就叫做<strong>视差</strong>，两相机光轴之间的距离$T$叫做<strong>基线距离</strong>。可以看到：</p>
+<ol>
+<li>固定基线距离和焦距下，视差越大，距离越小。这一点很好理解：近大远小，深度距离$Z$大，点在图像中的视差就小。</li>
+<li>当视差很小时，微小的变化都会导致深度值的巨大变化，因此噪声的影响会非常大。也就是说：立体相机只能在物体离相机比较近的时候测距才比较准。(现在有些双目相机在20米开外仍然可以使用，这就需要在匹配过程中非常准确排除掉噪声，将每一点的视差都稳定地处在一个大致正确的范围内)。</li>
+<li>上面一条的数学描述为：给定允许的最小视差增量$\Delta d$，最小深度范围精度为：$\Delta{Z}=\frac{Z^2}{fT}\Delta{d}$ </li>
+<li><p>当双目系统最大视差和最小视差分别为$d<em>{max}$和$d</em>{min}$时，双目的深度可测量范围为：$\frac{fT}{d<em>max}$ 到 $\frac{fT}{d</em>{min}$。</p>
+<h2 id="对极几何和基本矩阵"><a href="#对极几何和基本矩阵" class="headerlink" title="对极几何和基本矩阵"></a>对极几何和基本矩阵</h2></li>
+</ol>
+<p>上面说过：三角测量是双目测距的基础。对级几何和基本矩阵则是<strong>快速计算出视差</strong>最重要的理论基础。如果没有对级几何的约束，一个图像(设n<em>n的正方形图像)上某一点，在相同大小的另一幅图像找对应点产生视差，将是O(n^2)的算法。有了对级几何约束，很简单的处理(后面将看到是<em>*图像校正</em></em>)就可以将算法复杂度简化为O(n)。</p>
+<p>一个摄像机光轴中心投影在另一个像平面的位置，叫做$极点$。以《学习OpenCV》那本书中的插图为例：</p>
+<p><img src="https://farm1.staticflickr.com/280/19835160193_bb3ac02718_z.jpg" alt="对级几何"></p>
+<p dir="ltr" align="middle" style="font-size:xx-small">对极几何约束</p>
+
+<p>左边相机光轴$O_l$投影到右边平面的点为$e_r$，对应的，右边相机光轴$O_r$投影到左边平面的点为$e_l$。任意点$P$与$O_l O_r$线段组成的平面与两个投影面相交分别形成的两条直线，叫做<strong>极线</strong>。</p>
+<p>极线最重要的性质是：</p>
+<blockquote>
+<p>给定一幅图像上的一个特征，它在另一幅图像上的匹配师徒一定在对应的极线上。这就是”对极约束”。</p>
+</blockquote>
+<p>其余的性质有：</p>
+<p>基本矩阵为自由度为7的奇异矩阵。</p>
+<p>对极几何的代数表示便是基础矩阵，它限定了空间上某一点$P$在两个摄像机像平面上的投影坐标$q_l$和$q_r$之间的关系：</p>
+<p>$$<br>q_r^TFq_l=0<br>$$</p>
+<p>矩阵$F$就是基本矩阵。</p>
+<p>左右相机的对极线为：</p>
+<ul>
+<li>${I}’=Fx$是对应于$x_l$的对极线</li>
+<li>$I=F^Tx$是对应于$x_r$的对极线</li>
+</ul>
+<p>左相机和右相机的极点分别满足：<br>$$<br>Fe_l=0，F^Te_r=0<br>$$</p>
+<p> 基本矩阵可以通过两幅图像的对应点直接得到，甚至不用预先知道相机的内参。求解基本矩阵有不同的方法，OpenCV提供了四种，分别是7点算法、8点算法、RANSAC算法和LMeds算法。《<strong><em>Multiview Geometry in Computer Vision</em></strong>》的整个第11章都在讲F矩阵的不同求法。</p>
+<p>##双目测量的流程</p>
+<p>文章开始介绍的三角测量做了太多的假设：光轴平行，像平面严格处于一个平面，图像无畸变，焦距一致。但实际上是很难制造出如此完美的相机系统的。幸运的是，在两个相机关系相对比较良好（不需要有假设的那么苛刻），理想的条件是可以通过数学方法来达到的。</p>
+<p>因此双目视觉的流程可以总结为：</p>
+<ol>
+<li>相机各自标定和矫正畸变</li>
+<li>左右图像矫正，使光轴平行并且行对齐</li>
+<li>立体匹配，在对极约束下寻找对应点</li>
+<li>利用三角测量重投影产生深度图</li>
+</ol>
+<p>第一步在<a href="http://pangbo.co/%E6%8A%80%E6%9C%AF%E5%8D%9A%E6%96%87/2015/08/06/%E5%8D%95%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A/" target="_blank" rel="external">单目标定一文</a>中已经讲过了，第四步三角测量在刚才一节中也讲过。现在重点来讲述图像校正和立体匹配的内容，在讲述这些内容之前，先将一下立体标定。</p>
+<p>##立体标定</p>
+<p>立体标定的目标是求解两个相机之间的RT矩阵。假设点P=(X,Y,Z)在左边摄像机坐标系下的坐标$P_l=R_lP+T_l$，在右边摄像机下的坐标$P_r=R_rP+T_r$。需要计算的是$P_l$到$P_r$的转换$P_r=RP_l+T$,则可以推出：</p>
+<p>$$<br>R=R_rR_l^T<br>$$</p>
+<p>$$<br>T=T_r-R_l^TT_l<br>$$</p>
+<p>因此分别使用单目相机的标定过程计算出两组外参，带入公式中，即可计算出两个相机的相对朝向RT。由于噪声和舍入误差，每组结果计算出的RT可能有所不同，因此可以使用RT的中值作为正式结果的初始近似值，然后运行Levenberg-Marquardt迭代算法找到鲁棒的值。</p>
+<p>##立体校正</p>
+<p>两台摄像机像平面共面并且行对准的情况基本不存在，因此高效的方法是预先将图像校正为行对准的，然后在对应行找匹配点。</p>
+<p>OpenCV介绍了两种校正方法，一种是不需要立体校正的Hartley算法，另一种Bouguet算法则需要知道两个相机的RT关系。</p>
+<p>###Hartley算法<br>大概思想为：<br>1，先计算出基础矩阵和两个极点$e_l$和$e_r$<br>2，计算将$e_r$旋转到$(f,0,1)$的旋转矩阵$R$和将右图像上感兴趣点（比如图像中心）到原点的平移$T$<br>3,   将$(f,0,1)^T$通过矩阵</p>
+<p>$$<br>G=\begin{bmatrix}<br>1 &amp; 0 &amp; 0\<br>0 &amp; 1 &amp; 0 \<br>-1/f &amp; 0 &amp; 1<br>\end{bmatrix}<br>$$</p>
+<p>映射到$(f,0,0)^T$无穷远处，即光轴平行。映射$H_r=GRT$</p>
+<p>4，搜寻与$H_r$匹配的单应矩阵$H_l$,将左极点发送到无穷远处，并保证行对准。能用到的准则是：让校准之后的两幅图像匹配点之间的间距最小。也就是查找到$H_l$，使左右匹配点的总视差最小：</p>
+<p>$$<br>\sum_i{d(H_lP_i^l,H_lP_i^l)^2}<br>$$</p>
+<p>具体求解可参考《<strong><em>Multiview Geometry in Computer Vision</em></strong>》305页的内容。</p>
+<p>##立体匹配</p>
+<p>之前的步骤：矫正畸变、图像行对准都是可以使用标定板预先计算好相关参数，然后在处理图像时直接使用的，但立体匹配这个步骤所面对的，则是真实的、可能有各种极端情况的图片。准确来说，完成之前的步骤，图像匹配这个步骤和双目视觉关系已经不大了，完全是使用图像处理的技术，考虑种种可能性，选择好的匹配对应点的过程。</p>
+<p>匹配的过程，会面对的问题有：图像畸变和噪声、表面光斑，透视投影变换、视角畸变，无纹理区域，重复模式、遮挡、不连续等问题。</p>
+<p>有人统计21世纪起计算机视觉影响力最大的20篇期刊论文(<a href="http://www.cnblogs.com/youth0826/archive/2012/12/04/2801481.html" target="_blank" rel="external">链接</a>),排名第14位的论文”<em>A taxonomy and evaluation of dense two-frame stereo correspondence algorithms</em>“就是关于双目立体成像的。其提供了一个数据库和评估方法，测试双目立体成像的效果，并且可以在线提交自己的算法。论文还对匹配问题进行了分类，按照论文的理解，立体匹配过程分为如下几个步骤：</p>
+<ol>
+<li>匹配代价计算</li>
+<li>匹配代价汇总</li>
+<li>视差生成/优化</li>
+<li>视差细化</li>
+</ol>
+<p>算法按视差优化生成可以分为：</p>
+<p><strong>局部算法</strong>一般包括1,2,3三个步骤，第三个步骤为简单的赢者通吃(Winner Takes All 或WTA)策略。OpenCV提供的块匹配算法(BM)就是局部匹配算法。</p>
+<p><strong>全局算法</strong>包括1,3两个步骤，第三个步骤会考虑全局或者半全局的约束。OpenCV提供的SGBM是半全局优化的方法。</p>
+<p>其中计算点对之间距离时，又可分为：</p>
+<p>绝对值距离（SAD）</p>
+<p>$$<br>e(x,y,d)=\sum_{x \subseteq S }\left | I_R(x,y)-I_T(x+d,y) \right |<br>$$</p>
+<p>平方距离（SSD）</p>
+<p>$$<br>e(x,y,d)=\sum_{x \subseteq S } (I_R(x,y)-I_T(x+d,y))^2<br>$$</p>
+<p>或者考虑排除干扰点的鲁棒匹配距离,比如TAD：</p>
+<p>$$<br>e(x,y,d)= \sum_{x \subseteq S }min{|I_R(x,y)-I_T(x+d,y|,T}<br> $$</p>
+<p>了解到这个，块匹配实际上就是使用固定大小的block，使用某种距离（OpenCV中为SAD）进行匹配，然后采用策略比如WTA得到视差图。</p>
+<p>固定窗口块匹配是实际使用的最广的匹配算法。其简单快速地实现，对内存要求少，可以在FPGA等硬件上实现。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"># CV</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/06/单相机标定/" rel="next" title="单摄像机标定">
+                <i class="fa fa-chevron-left"></i> 单摄像机标定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/18/工业相机传感器与接口/" rel="prev" title="工业相机传感器与接口">
+                工业相机传感器与接口 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="PangBo" />
+          <p class="site-author-name" itemprop="name">PangBo</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#对极几何和基本矩阵"><span class="nav-number">1.</span> <span class="nav-text">对极几何和基本矩阵</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">PangBo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

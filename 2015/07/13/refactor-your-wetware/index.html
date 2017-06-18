@@ -1,0 +1,725 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="读后感," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="这本书并没有教我们如何写程序，或者如何在细节上写出更优秀的程序，比如要有缜密、全面的思维考虑边界条件，如何调试bug等等，这本书想要教给我们的，是如何学习与思考。与我本以为的那些细节思维不同，这本书要强调的，是全局的思维。">
+<meta name="keywords" content="读后感">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《程序员的思维训练》读后感">
+<meta property="og:url" content="http://yoursite.com/2015/07/13/refactor-your-wetware/index.html">
+<meta property="og:site_name" content="PangBo&#39;s Blog">
+<meta property="og:description" content="这本书并没有教我们如何写程序，或者如何在细节上写出更优秀的程序，比如要有缜密、全面的思维考虑边界条件，如何调试bug等等，这本书想要教给我们的，是如何学习与思考。与我本以为的那些细节思维不同，这本书要强调的，是全局的思维。">
+<meta property="og:updated_time" content="2017-06-18T15:27:50.811Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《程序员的思维训练》读后感">
+<meta name="twitter:description" content="这本书并没有教我们如何写程序，或者如何在细节上写出更优秀的程序，比如要有缜密、全面的思维考虑边界条件，如何调试bug等等，这本书想要教给我们的，是如何学习与思考。与我本以为的那些细节思维不同，这本书要强调的，是全局的思维。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/07/13/refactor-your-wetware/"/>
+
+
+
+
+
+  <title>《程序员的思维训练》读后感 | PangBo's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PangBo's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Please fasten your seatbelt</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/13/refactor-your-wetware/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="PangBo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PangBo's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《程序员的思维训练》读后感</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-13T00:00:00+08:00">
+                2015-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书心得/" itemprop="url" rel="index">
+                    <span itemprop="name">读书心得</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这本书并没有教我们如何写程序，或者如何在细节上写出更优秀的程序，比如要有缜密、全面的思维考虑边界条件，如何调试bug等等，这本书想要教给我们的，是如何学习与思考。与我本以为的那些细节思维不同，这本书要强调的，是全局的思维。</p>
+<a id="more"></a>
+<p>开篇作者就介绍了德雷福斯模型，清楚描绘了从新手到专家的五个阶段。但和以往的经验不同，书中强调：随着阶段的提高，人会越来越关注情景，根据直觉来做出决策。这一点是我从来没想到的。从新手开始，人缺乏经验，想做出一件事情只能根据一条一条的指令来做，而随着能力的提升，渐渐形成了处理某种事情的体系，而不再需要关注事情的细枝末节。</p>
+<p> 知道这个模型有什么用呢？通往专家的路上还不是需要一点一点摸索与积累经验？书中介绍了一点模型的用处：当你指导一个新手时，就要告诉他与情景无关的规则。而对待专家，你需要告诉他具体情景，而无需关注细节。</p>
+<p>第三章为认识你的大脑，和之前的德雷福斯模型所呼应。书中阐述：人的大脑是一个双CPU的模型，分别为L型和R型。左脑关注逻辑和语言，右脑关注艺术灵感创新。这个观点其实并不新鲜，很多关于左脑右脑分工的讨论。但作为《程序员思维训练》这样一本书，不强调左脑的逻辑训练，却一直强调右脑的重要性，却是很新颖的。注意，作者没有说L型思维不重要，作者是觉得一直以为这个行业的人们都很强调L型思维，人们在这条路上已经走了很远了，应该更关注于R型思维。</p>
+<p>第四章接着上面，介绍了如何从R型思维向L型思维转换。结对编程、酒醉写作酒醒修改、绘画、讲笑话等。之后介绍了如何获取R型思维，有些技术我现在还没有办法理解和体会，比如利用图像流，但有些技术却是我非常认同并且早已实践收益多多的：日记、晨写、散步。</p>
+<p>第五章理智地叙述了依赖直觉会碰到的偏见。我们的直觉会受到认知偏见、时代、个人性格、人的本能等多方面的影响。这一章的最后一节很关键：这些偏见在所难免，你不知道自己的直觉是专家睿智正确的直觉，还是偏见的恶果。这时候就需要调试自己的大脑，找出这些偏见。</p>
+<p> 第六章主动学习，开始即阐述了学习是什么不是什么。作者抨击了包括大学教育的传统授课式教育的缺点，觉得学习不应该是灌输知识的方式，而应该是启发思考，点燃头脑中的火焰的方式。然后介绍了SMART目标、SQ3R阅读法、一起学习、以教代学、思维导图等一系列方法。这些方法都是trick，但的确看起来很有用。</p>
+<p>第七章为在实践中积累经验。这章介绍的一些方法和理念我很认同。比如以玩耍的心态熟悉一件新鲜的事物，再比如说让问题在脑中浸泡一段时间，在失败中不断摸索，但是到搭建可以失败的环境。只是学习没办法让一个新手成为专家，只有在实践中积累经验才有可能培养直觉。</p>
+<p>第八章是如何集中注意力，这一章所讲述的方法都不新鲜，GDT、控制主要时段免于他人打扰，关闭邮件提醒甚至关闭邮件客户端都是我已经熟悉的方法。关键是要坚持这样做。以我个人的经验，很多时候打扰自己的不是别人，而是浮躁的自己，一会儿想刷下微博朋友圈，一会儿想主动去看看有没有邮件。一个人的脑力（与体力对应，不对应智商）是有一个量的，工作中就会消耗，休息或者运动就能补充，所以要合理利用。</p>
+<p> 最后一章为超越专家。这章个人感觉非常实用并且其他书里估计很难有，它深知读者都会尝试书中介绍了各种方法改变现状，但求于改变的话，在改变的途中肯定会遇到各种阻力。这章告诉我们要坚持改变，时刻审视自己。开自动驾驶的汽车你很难学会真正的驾驶，所以请握紧方向盘。</p>
+<p> 这本书的副标题是refactor your wetware，即教你如何使用自己的大脑，其实真本书所属的内容放在绝大多数行业都是可以的，只是文中举例的时候多以程序开发为例。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/读后感/" rel="tag"># 读后感</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/14/git-commit-eventnotfound/" rel="next" title="Git commit时出现event not found">
+                <i class="fa fa-chevron-left"></i> Git commit时出现event not found
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/24/swt-headline-detection/" rel="prev" title="使用笔画宽度变化做商品包装的标题检测">
+                使用笔画宽度变化做商品包装的标题检测 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="PangBo" />
+          <p class="site-author-name" itemprop="name">PangBo</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">PangBo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
