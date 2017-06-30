@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="FPGA," />
+  <meta name="keywords" content="vim coding," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="导言： 这半个月花了一些时间研究FPGA上的嵌入式开发，特别是在图像处理方面的应用，都不敢称得上入门，只能说在门口往里稍微看了看。目前FPGA做图像处理方向的人还不多，这个方向相比其他平台有其优势，相信未来会有越来越多的人来尝试。这里将自己这段时间所学到的一些知识点整理出来，一方面做自己梳理思路之用，另一方面希望对今后从事这个方向的初学者有些帮助。">
-<meta name="keywords" content="FPGA">
+<meta name="description" content="不知道自己是第几次尝试将coding平台转到Vim下面，但屡屡尝试，却屡屡失败，最后都重新投入到IDE的怀抱。每次都给自己找很多借口，调试不方便，跳转不方便，补全不方便等等。">
+<meta name="keywords" content="vim coding">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FPGA与Verilog HDL电路设计初探">
-<meta property="og:url" content="http://yoursite.com/2015/08/23/FPGA与Verilog HDL电路设计初探/index.html">
+<meta property="og:title" content="使用vim进行日常编程">
+<meta property="og:url" content="http://yoursite.com/2017/06/29/vim-use/index.html">
 <meta property="og:site_name" content="PangBo&#39;s Blog">
-<meta property="og:description" content="导言： 这半个月花了一些时间研究FPGA上的嵌入式开发，特别是在图像处理方面的应用，都不敢称得上入门，只能说在门口往里稍微看了看。目前FPGA做图像处理方向的人还不多，这个方向相比其他平台有其优势，相信未来会有越来越多的人来尝试。这里将自己这段时间所学到的一些知识点整理出来，一方面做自己梳理思路之用，另一方面希望对今后从事这个方向的初学者有些帮助。">
-<meta property="og:updated_time" content="2017-06-18T15:33:25.082Z">
+<meta property="og:description" content="不知道自己是第几次尝试将coding平台转到Vim下面，但屡屡尝试，却屡屡失败，最后都重新投入到IDE的怀抱。每次都给自己找很多借口，调试不方便，跳转不方便，补全不方便等等。">
+<meta property="og:updated_time" content="2017-06-29T15:35:21.178Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FPGA与Verilog HDL电路设计初探">
-<meta name="twitter:description" content="导言： 这半个月花了一些时间研究FPGA上的嵌入式开发，特别是在图像处理方面的应用，都不敢称得上入门，只能说在门口往里稍微看了看。目前FPGA做图像处理方向的人还不多，这个方向相比其他平台有其优势，相信未来会有越来越多的人来尝试。这里将自己这段时间所学到的一些知识点整理出来，一方面做自己梳理思路之用，另一方面希望对今后从事这个方向的初学者有些帮助。">
+<meta name="twitter:title" content="使用vim进行日常编程">
+<meta name="twitter:description" content="不知道自己是第几次尝试将coding平台转到Vim下面，但屡屡尝试，却屡屡失败，最后都重新投入到IDE的怀抱。每次都给自己找很多借口，调试不方便，跳转不方便，补全不方便等等。">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2015/08/23/FPGA与Verilog HDL电路设计初探/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/29/vim-use/"/>
 
 
 
 
 
-  <title>FPGA与Verilog HDL电路设计初探 | PangBo's Blog</title>
+  <title>使用vim进行日常编程 | PangBo's Blog</title>
   
 
 
@@ -276,7 +276,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/23/FPGA与Verilog HDL电路设计初探/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/vim-use/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="PangBo">
@@ -293,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">FPGA与Verilog HDL电路设计初探</h1>
+          <h1 class="post-title" itemprop="name headline">使用vim进行日常编程</h1>
         
 
         <div class="post-meta">
@@ -305,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-23T00:00:00+08:00">
-                2015-08-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T23:26:16+08:00">
+                2017-06-29
               </time>
             
 
@@ -328,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术博文/" itemprop="url" rel="index">
-                    <span itemprop="name">技术博文</span>
+                  <a href="/categories/Life/" itemprop="url" rel="index">
+                    <span itemprop="name">Life</span>
                   </a>
                 </span>
 
@@ -362,23 +362,9 @@
       
 
       
-        <blockquote>
-<p><strong>导言：</strong> 这半个月花了一些时间研究FPGA上的嵌入式开发，特别是在图像处理方面的应用，都不敢称得上入门，只能说在门口往里稍微看了看。目前FPGA做图像处理方向的人还不多，这个方向相比其他平台有其优势，相信未来会有越来越多的人来尝试。这里将自己这段时间所学到的一些知识点整理出来，一方面做自己梳理思路之用，另一方面希望对今后从事这个方向的初学者有些帮助。</p>
-</blockquote>
+        <p>不知道自己是第几次尝试将coding平台转到Vim下面，但屡屡尝试，却屡屡失败，最后都重新投入到IDE的怀抱。每次都给自己找很多借口，调试不方便，跳转不方便，补全不方便等等。</p>
 <a id="more"></a>
-<p>##Verilog HDL硬件设计</p>
-<p>Verilog是一种硬件描述语言。从名字看就知道，它不是程序设计语言，而是用来描述电路结构的。通俗的讲就是算法的实现电路已经在你脑子里了，你需要用语言把这些电路部件和相互连接关系给表述出来。你可以一个门一个门的表示（门级表示），也可以抽象性高一些地用运算符和数据赋值等形式来表示（RTL级），甚至可以再抽象一些地使用高级语言里的一些特性来表示(case，if，for等等)。</p>
-<p>###综合</p>
-<p>Verilog中有一个很重要的概念：<strong>综合</strong>。它指的是将硬件描述语言翻译成门级网表和相互连线的过程。综合之后的网表再经过实现，与实际的FPGA硬件建立映射关系，才能产生实际的电路。综合这个过程有点像编译器将C语言编译成汇编语言的过程。有所不同的是，你写出的C语言只要语法正确，都可以翻译成汇编语言，但写出的Verilog却不一定都可以被综合成门级网表。这里就有了另一个衍生的概念：可综合。</p>
-<p>Verilog中的语法中只有一个子集的语法是可以被用来综合的。为什么这么设计呢？因为Verilog集合了硬件描述和硬件仿真两大功能。</p>
-<ul>
-<li><strong>硬件描述</strong>  硬件描述是Verilog最主要的功能。这部分需要被综合转换成实际电路的，所以只有某些可以被转换成电路的语法才可以使用。</li>
-<li><strong>硬件仿真</strong>是为硬件描述服务的，用于在各个层次验证电路是否正确。刚才说综合就像C语言中的编译，那Verilog中的仿真就可以类比C语言开发中的测试。仿真是用程序模拟真实信号的输入，并不需要转换成实际电路，因此任何Verilog允许的语法都可以用来仿真。</li>
-</ul>
-<p>提早在脑子里有“<strong>可综合</strong>”的概念至关重要，意识到“可综合”，你也就差不多有电路的意识了。我学Verilog语法看的是夏宇闻翻译的《<strong><em>Verilog HDL数字设计与综合</em></strong>》，手边也有他写的《<strong><em>Verilog数字系统设计教程</em></strong>》草草翻过。这两本书在国内推荐度很高，我也相信其专业性，不足就是：上来直接讲了一堆Verilog的语法，却连哪些是用来仿真的语法，哪些是用来设计电路的语法都没有说明，这样看下去基本很难对数字系统设计有领悟。Verilog本来就和C的语法很像，只看操作符、条件控制等语法，直接联想到C语言，“这些不都和C语言一样吗？我都会啊！”，那就完了。</p>
-<p>我这里推荐云创工作室写的《<strong><em>Verilog HDL硬件描述语言程序设计与实践教程</em></strong>》(名字真长…)，开始就将这些概念概述的很清楚，将一些基础语法的时候还会配有综合后的RTL结构图，慢慢的就会有意识：这些加号啊、if语句啊，都不是简单的数学运算和分支语句，而是自己设计的电路中的一个个部件。</p>
-<p>###仿真<br>据说大型的硬件系统设计，仿真代码是实现代码的好几倍之多，我猜测可能像大型软件项目一样，测试代码也比逻辑代码多很多吧。不过似乎硬件仿真的确比软件测试麻烦，需要进行功能仿真、时序仿真和片上验证。功能仿真可以验证电路功能是否正确，时序仿真是在综合之后引入电路的延迟的仿真，片上验证则是直接在电路板上进行验证结果。</p>
-<p>对于在FPGA开发图像处理算法，我觉得使用ModelSim进行仿真难度挺大的，而且可能将图像通过IO传出来看来调试，速度会更快一些。另外，对图像甚至视频流进行功能仿真和时序仿真怎么来实现，我现在还不知道。</p>
+<p>啦啦啦</p>
 
       
     </div>
@@ -408,7 +394,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/FPGA/" rel="tag"># FPGA</a>
+            <a href="/tags/vim-coding/" rel="tag"># vim coding</a>
           
         </div>
       
@@ -421,8 +407,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/18/工业相机传感器与接口/" rel="next" title="工业相机传感器与接口">
-                <i class="fa fa-chevron-left"></i> 工业相机传感器与接口
+              <a href="/2017/06/11/why-public-writting-so-hard/" rel="next" title="为什么写可以发表的文章这么难？">
+                <i class="fa fa-chevron-left"></i> 为什么写可以发表的文章这么难？
               </a>
             
           </div>
@@ -430,10 +416,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/09/02/司机的知识/" rel="prev" title="司机的知识--选自《清醒思考的艺术》">
-                司机的知识--选自《清醒思考的艺术》 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
