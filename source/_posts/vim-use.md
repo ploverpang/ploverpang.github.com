@@ -5,8 +5,7 @@ tags:
 - vim
 - linux
 categories: 
-- work 
-description: 
+- 技术博文
 ---
 
 大二就接触了Vim，那会儿刚会用最常见的指令操作vim，就已经被深深吸引：这才是编程的正确姿势，鼠标什么的给我拿远点。大四在北京一家小公司实习做JAVA测试，公司也是规定用Vim编程（不明白编程工具为什么都要统一？）。当时傻乎乎的，不会用任何插件，跳转补全模板什么的都没有，就是硬生生的手敲代码，愣是敲了几个月时间，敲出了好多没什么技术含量的增删改查(CRUD)代码。
@@ -31,7 +30,7 @@ Vim的插件多如牛毛，每一个功能都有好几个工具可供选择，�
 
 最后附上我目前使用的vim插件。
 
-```
+``` vim
 " My Plugins
 Plugin 'gmarik/vundle'
 Plugin 'MarcWeber/vim-addon-mw-utils'
